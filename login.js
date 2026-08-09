@@ -255,20 +255,17 @@ window.onload = function () {
 // Ganti window.onload dengan pengecekan aman ini
 function initGoogleAuth() {
   if (window.google && google.accounts && google.accounts.id) {
+    console.log("Google SDK siap!"); // Cek ini di console
     google.accounts.id.initialize({
-      client_id: GOOGLE_CLIENT_ID,
-      callback: handleCredentialResponse,
-      auto_select: false,
-      cancel_on_tap_outside: true
+      client_id: 'MASUKKAN_CLIENT_ID_KAMU_DISINI',
+      callback: handleCredentialResponse
     });
   } else {
-    // Jika belum siap, coba lagi dalam 500ms
+    console.log("Google SDK belum siap, nunggu 500ms...");
     setTimeout(initGoogleAuth, 500);
   }
 }
 
-// Jalankan fungsi
-initGoogleAuth();
 
 
 function handleCredentialResponse(response) {
