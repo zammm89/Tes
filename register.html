@@ -1,85 +1,46 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daftar Akun</title>
-
-  <!-- SDK Google Identity Services -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-
-  <link rel="stylesheet" href="login.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Akun</title>
+    <!-- Penting: Script Google SDK -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <link rel="stylesheet" href="register.css">
 </head>
 <body>
 
-  <div class="container">
-    <div class="glass-card">
-      <h2 id="title">Daftar Akun</h2>
-      <p class="subtitle" id="subtitle">Buat akun baru Anda</p>
+    <div class="register-container">
+        <h2 id="txtTitle">Daftar Akun</h2>
+        <p id="txtSubtitle">Buat akun baru Anda</p>
 
-      <!-- KOTAK PESAN ERROR (MENGGANTIKAN ALERT BROWSER) -->
-      <div id="error-message" class="error-message"></div>
+        <form id="registerForm">
+            <label id="lblFullname">Nama Lengkap</label>
+            <input type="text" id="inputFullname" placeholder="Masukkan nama" required>
 
-      <form id="register-form">
-        <div class="input-group">
-          <label for="username" id="lbl-name">Nama Lengkap</label>
-          <input type="text" id="username" class="input-field" placeholder="Masukkan nama" required autocomplete="off">
-        </div>
+            <label id="lblEmail">Email</label>
+            <input type="email" id="inputEmail" placeholder="Masukkan email" required>
 
-        <div class="input-group">
-          <label for="email" id="lbl-email">Email</label>
-          <input type="email" id="email" class="input-field" placeholder="Masukkan email" required autocomplete="off">
-        </div>
+            <label id="lblPassword">Password</label>
+            <input type="password" id="inputPassword" placeholder="Buat password" required>
 
-        <div class="input-group">
-          <label for="password" id="lbl-password">Password</label>
-          <div class="password-wrapper">
-            <input type="password" id="password" class="input-field" placeholder="Buat password" required>
-            <button type="button" class="toggle-password" id="toggle-password" aria-label="Tampilkan Password">
-              <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
-                <circle cx="12" cy="12" r="3"/>
-              </svg>
-            </button>
-          </div>
-        </div>
+            <button type="submit" id="btnSubmit">Daftar</button>
+        </form>
 
-        <button type="submit" class="submit-btn" id="btn-submit">Daftar</button>
-      </form>
+        <!-- Pesan Error -->
+        <div id="errorMessage" style="color: red; display: none; margin-top: 10px;"></div>
 
-      <div class="divider">atau</div>
+        <div class="divider">atau</div>
 
-      <button type="button" class="google-btn" id="google-register-btn">
-        <svg class="google-icon" viewBox="0 0 24 24">
-          <path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.6l3.1-3.1C17.3 1.7 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.4 9 5 12 5z"/>
-          <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.6h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.9z"/>
-          <path fill="#FBBC05" d="M5.6 14.8c-.3-.8-.4-1.8-.4-2.8s.1-2 .4-2.8L1.9 6.3C.7 8.7 0 10.3 0 12s.7 3.3 1.9 5.7l3.7-2.9z"/>
-          <path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.4-6.4-5.2L1.9 16C3.7 19.7 7.5 23 12 23z"/>
-        </svg>
-        <span id="txt-google">Daftar dengan Google</span>
-      </button>
+        <!-- Tombol Google -->
+        <button type="button" class="google-btn" onclick="loginWithGoogle()">
+            <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google">
+            <span id="txtGoogleBtn">Daftar dengan Google</span>
+        </button>
 
-      <p class="switch-text">
-        <span id="txt-switch">Sudah punya akun?</span>
-        <a href="login.html" id="link-switch">Masuk sekarang</a>
-      </p>
+        <p><span id="txtSwitch">Sudah punya akun?</span> <a href="login.html" id="linkSwitch">Masuk sekarang</a></p>
     </div>
-  </div>
 
-  <!-- Pemilih Bahasa -->
-  <div class="language-selector">
-    <img id="lang-flag" src="https://flagcdn.com/w40/id.png" alt="Bendera" class="flag-icon">
-    <select id="lang-select">
-      <option value="id">Indonesia</option>
-      <option value="en">English</option>
-      <option value="ja">日本語</option>
-      <option value="ko">한국어</option>
-      <option value="zh">中文</option>
-      <option value="de">Deutsch</option>
-      <option value="fr">Français</option>
-    </select>
-  </div>
-
-  <script src="register.js"></script>
+    <script src="register.js"></script>
 </body>
 </html>
