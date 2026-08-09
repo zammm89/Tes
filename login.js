@@ -1,5 +1,6 @@
 // GANTI DENGAN CLIENT ID ASLI DARI GOOGLE CLOUD CONSOLE
-const GOOGLE_CLIENT_ID = "1084240465754-qnod5oaq7gpfg40i5lmi0ignb2fihidu.apps.googleusercontent.com";
+const GOOGLE_CLIENT_ID = "1084240465754-qnod5oaq7gpfg40l5lmi0lgnb2fihldu.apps.googleusercontent.com";
+
 
 
 const translations = {
