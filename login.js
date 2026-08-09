@@ -245,9 +245,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Google Init Callback (Diperbaiki)
 window.onload = function () {
-  initGoogleAuth();
+  google.accounts.id.initialize({
+    client_id: "1084240465754-qnod5oaq7gpfg40l5lmi0lgnb2fihldu.apps.googleusercontent.com",
+    callback: handleCredentialResponse
+  });
 };
 
+
+// Ganti window.onload dengan pengecekan aman ini
 function initGoogleAuth() {
   if (window.google && google.accounts && google.accounts.id) {
     google.accounts.id.initialize({
@@ -256,8 +261,15 @@ function initGoogleAuth() {
       auto_select: false,
       cancel_on_tap_outside: true
     });
+  } else {
+    // Jika belum siap, coba lagi dalam 500ms
+    setTimeout(initGoogleAuth, 500);
   }
 }
+
+// Jalankan fungsi
+initGoogleAuth();
+
 
 function handleCredentialResponse(response) {
   const responsePayload = parseJwt(response.credential);
