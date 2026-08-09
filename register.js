@@ -1,3 +1,200 @@
+// Configuration
+const GOOGLE_CLIENT_ID = "1084240465754-qnod5oaq7gpfg40l5lmi0lgnb2fihldu.apps.googleusercontent.com";
+
+// Language Translations
+const translations = {
+  id: {
+    title: "Daftar Akun",
+    subtitle: "Buat akun baru Anda",
+    fullname: "Nama Lengkap",
+    fullnamePlaceholder: "Masukkan nama",
+    email: "Email",
+    emailPlaceholder: "Masukkan email",
+    password: "Password",
+    passwordPlaceholder: "Buat password",
+    submitBtn: "Daftar",
+    googleBtn: "Daftar dengan Google",
+    txtSwitch: "Sudah punya akun?",
+    linkSwitch: "Masuk sekarang",
+    errExist: "Email sudah terdaftar! Silakan login.",
+    flagUrl: "https://flagcdn.com/w40/id.png"
+  },
+  en: {
+    title: "Register Account",
+    subtitle: "Create your new account",
+    fullname: "Full Name",
+    fullnamePlaceholder: "Enter full name",
+    email: "Email",
+    emailPlaceholder: "Enter email",
+    password: "Password",
+    passwordPlaceholder: "Create password",
+    submitBtn: "Register",
+    googleBtn: "Register with Google",
+    txtSwitch: "Already have an account?",
+    linkSwitch: "Log in now",
+    errExist: "Email already registered! Please login.",
+    flagUrl: "https://flagcdn.com/w40/gb.png"
+  },
+  ja: {
+    title: "新規登録",
+    subtitle: "新しいアカウントを作成",
+    fullname: "氏名",
+    fullnamePlaceholder: "名前を入力",
+    email: "メールアドレス",
+    emailPlaceholder: "メールアドレスを入力",
+    password: "パスワード",
+    passwordPlaceholder: "パスワードを作成",
+    submitBtn: "登録",
+    googleBtn: "Googleで登録",
+    txtSwitch: "すでにアカウントをお持ちですか？",
+    linkSwitch: "今すぐログイン",
+    errExist: "このメールアドレスは既に登録されています。",
+    flagUrl: "https://flagcdn.com/w40/jp.png"
+  },
+  ko: {
+    title: "회원가입",
+    subtitle: "새 계정을 만드세요",
+    fullname: "성명",
+    fullnamePlaceholder: "이름을 입력하세요",
+    email: "이메일",
+    emailPlaceholder: "이메일을 입력하세요",
+    password: "비밀번호",
+    passwordPlaceholder: "비밀번호 생성",
+    submitBtn: "가입하기",
+    googleBtn: "Google로 가입하기",
+    txtSwitch: "이미 계정이 있으신가요?",
+    linkSwitch: "지금 로그인",
+    errExist: "이미 등록된 이메일입니다.",
+    flagUrl: "https://flagcdn.com/w40/kr.png"
+  },
+  zh: {
+    title: "注册账户",
+    subtitle: "创建您的新账户",
+    fullname: "全名",
+    fullnamePlaceholder: "请输入姓名",
+    email: "电子邮箱",
+    emailPlaceholder: "请输入电子邮箱",
+    password: "密码",
+    passwordPlaceholder: "创建密码",
+    submitBtn: "注册",
+    googleBtn: "使用 Google 注册",
+    txtSwitch: "已有账户？",
+    linkSwitch: "立即登录",
+    errExist: "该电子邮箱已被注册！请登录。",
+    flagUrl: "https://flagcdn.com/w40/cn.png"
+  }
+};
+
+let currentLang = 'id';
+
+// Initialize Google OAuth with Retry Logic
+function initGoogleAuth() {
+  if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+    google.accounts.id.initialize({
+      client_id: GOOGLE_CLIENT_ID,
+      callback: handleCredentialResponse,
+      auto_select: false,
+      cancel_on_tap_outside: true
+    });
+    console.log("Google SDK berhasil diinisialisasi.");
+  } else {
+    setTimeout(initGoogleAuth, 500);
+  }
+}
+
+// Handle Google Auth Response
+function handleCredentialResponse(response) {
+  console.log("Token Google ID:", response.credential);
+  alert("Pendaftaran dengan Google berhasil!");
+  // window.location.href = "login.html";
+}
+
+// Function called when clicking Google Button
+function loginWithGoogle() {
+  if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+    google.accounts.id.prompt();
+  } else {
+    alert("Google Service belum siap. Mohon tunggu beberapa detik lagi.");
+  }
+}
+
+// Toggle Language Dropdown
+function toggleLangDropdown() {
+  const dropdown = document.getElementById("langDropdown");
+  if (dropdown) {
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+  }
+}
+
+// Select Language
+function selectLang(lang) {
+  currentLang = lang;
+  const t = translations[lang];
+
+  document.getElementById("txtTitle").textContent = t.title;
+  document.getElementById("txtSubtitle").textContent = t.subtitle;
+  document.getElementById("lblFullname").textContent = t.fullname;
+  document.getElementById("inputFullname").placeholder = t.fullnamePlaceholder;
+  document.getElementById("lblEmail").textContent = t.email;
+  document.getElementById("inputEmail").placeholder = t.emailPlaceholder;
+  document.getElementById("lblPassword").textContent = t.password;
+  document.getElementById("inputPassword").placeholder = t.passwordPlaceholder;
+  document.getElementById("btnSubmit").textContent = t.submitBtn;
+  document.getElementById("txtGoogleBtn").textContent = t.googleBtn;
+  document.getElementById("txtSwitch").textContent = t.txtSwitch;
+  document.getElementById("linkSwitch").textContent = t.linkSwitch;
+  document.getElementById("currentFlag").src = t.flagUrl;
+
+  const dropdown = document.getElementById("langDropdown");
+  if (dropdown) dropdown.style.display = "none";
+}
+
+// DOM Event Listeners
+document.addEventListener("DOMContentLoaded", () => {
+  // Initialize Google Auth
+  initGoogleAuth();
+
+  // Close dropdown on outside click
+  window.addEventListener("click", (e) => {
+    if (!e.target.closest(".lang-selector")) {
+      const dropdown = document.getElementById("langDropdown");
+      if (dropdown) dropdown.style.display = "none";
+    }
+  });
+
+  // Handle Form Submission
+  const registerForm = document.getElementById("registerForm");
+  if (registerForm) {
+    registerForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = document.getElementById("inputFullname").value.trim();
+      const email = document.getElementById("inputEmail").value.trim();
+      const password = document.getElementById("inputPassword").value;
+
+      const users = JSON.parse(localStorage.getItem("users") || "[]");
+      const isExist = users.some(u => u.email === email);
+
+      if (isExist) {
+        showError(translations[currentLang].errExist);
+        return;
+      }
+
+      users.push({ name, email, password });
+      localStorage.setItem("users", JSON.stringify(users));
+
+      alert("Pendaftaran berhasil! Silakan login.");
+      window.location.href = "login.html";
+    });
+  }
+});
+
+function showError(msg) {
+  const errorMessage = document.getElementById("errorMessage");
+  if (errorMessage) {
+    errorMessage.textContent = msg;
+    errorMessage.style.display = "block";
+  }
+}
 // GANTI DENGAN CLIENT ID ASLI DARI GOOGLE CLOUD CONSOLE
 const GOOGLE_CLIENT_ID = "1084240465754-qnod5oaq7gpfg40l5lmi0lgnb2fihldu.apps.googleusercontent.com";
 
